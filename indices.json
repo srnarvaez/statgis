@@ -1,0 +1,64 @@
+{
+    "Indices": [
+        {
+            "name": "Normalized Difference Vegetation Index",
+            "key": "NDVI",
+            "formula": "(R_NIR - R_RED)/(R_NIR + R_RED)",
+            "type": "Vegetation"
+        },
+        {
+            "name": "Enhanced Vegetation Index",
+            "key": "EVI",
+            "formula": "2.5*((R_NIR - R_RED)/(R_NIR + 6*R_RED - 7.5*R_BLUE + 1))",
+            "type": "Vegetation"
+        },
+        {
+            "name": "Normalized Difference Moisture Index",
+            "key": "NDMI",
+            "formula": "(R_NIR - R_SWIR)/(R_NIR + R_SWIR)",
+            "type": "Vegetation"
+        },
+        {
+            "name": "Soil Adjusted Vegetation Index",
+            "key": "SAVI",
+            "formula": "((R_NIR - R_RED)/(R_NIR + R_RED + 0.5))*(1.5)",
+            "type": "Vegetation"
+        },
+        {
+            "name": "Alternative Floating Algae Index",
+            "key": "AFAI",
+            "formula": "R_NIR - R_RED + (R_SWIR - R_RED)*0.5",
+            "type": "Vegetation"
+        },
+        {
+            "name": "Normalized Difference Water Index",
+            "key": "NDWI",
+            "formula": "(R_GREEN - R_NIR)/(R_GREEN + R_NIR)",
+            "type": "Water"
+        },
+        {
+            "name": "Modified Normalized Difference Water Index",
+            "key": "mNDWI",
+            "formula": "(R_GREEN - R_SWIR2)/(R_GREEN + R_SWIR2)",
+            "type": "Water"
+        },
+        {
+            "name": "Automated Water Extraction Index",
+            "key": "AWEI-sh",
+            "formula": "4*(R_GREEN - R_SWIR2) - (0.25*R_NIR + 2.75*R_SWIR)",
+            "type": "Water"
+        },
+        {
+            "name": "Normalized Difference Snow Index",
+            "key": "NDSI",
+            "formula": "(R_GREEN - R_SWIR)/(R_GREEN + R_SWIR)",
+            "type": "Water"
+        },
+        {
+            "name": "Normalized Difference Built-Up Index",
+            "key": "NDBI",
+            "formula": "(R_SWIR - R_NIR)/(R_SWIR + R_NIR)",
+            "type": "Builds"
+        }
+    ]
+}
