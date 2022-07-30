@@ -3,4 +3,4 @@ pyproject.toml
 /.pytest_cache
 /dist
 test.ipynb
-/__pycache__
+/tests/__pycache__
