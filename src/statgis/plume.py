@@ -1,7 +1,5 @@
 import ee
 
-ee.Initialize()
-
 def plume_characterization(Image, sample_region, blue='SR_B2', green='SR_B3', red='SR_B4', nir='SR_B5'):
     '''
     Extract river plume from a ee.Image.

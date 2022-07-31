@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.1
+Fixed minimal issues
+
 ## Version 0.2.0
 - **Add function for river plume charactarization from sattelite images.**
 - Improve the packages structure.
