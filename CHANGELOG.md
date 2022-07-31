@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.2
+Add default value to tileScale.
+
 ## Version 0.2.1
 Fixed minimal issues
 

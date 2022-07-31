@@ -2,7 +2,7 @@ import ee
 import numpy as np
 import pandas as pd
 
-def zonal_statistics_image(Image, band, geom, scale, tileScale):
+def zonal_statistics_image(Image, band, geom, scale, tileScale=2):
     '''
     Calc the mean, maximum, minimum standard deviation
     of a band ee:Image in the specified ee.Geometry.
@@ -47,7 +47,7 @@ def zonal_statistics_image(Image, band, geom, scale, tileScale):
 
     return stats
 
-def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale):  
+def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2):  
     '''
     Calc the mean, maximum, minimum standard deviation
     of a band in all ee.Image in an ee.ImageCollection in the 
