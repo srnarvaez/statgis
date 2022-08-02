@@ -46,6 +46,7 @@ def zonal_statistics_image(Image, band, geom, scale, tileScale=2):
     stats = pd.DataFrame(raw_values['properties'], index=[0])
 
     stats['time'] = pd.to_datetime(stats['time'], unit='ms')
+    stats['time'] = pd.DatetimeIndex(stats['time'])
     
     return stats
 
@@ -127,6 +128,7 @@ def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2)
             dataframe = pd.concat([dataframe, data])
 
     dataframe['time'] = pd.to_datetime(dataframe['time'], unit='ms')
+    dataframe['time'] = pd.DatetimeIndex(dataframe['time'])
 
     return dataframe
 
@@ -208,5 +210,6 @@ def reduce_collection(ImageCollection, bands, geom, reducer, scale, tileScale=2)
             dataframe = pd.concat([dataframe, data])
 
     dataframe['time'] = pd.to_datetime(dataframe['time'], unit='ms')
+    dataframe['time'] = pd.DatetimeIndex(dataframe['time'])
     
     return dataframe

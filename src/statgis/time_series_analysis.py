@@ -18,6 +18,7 @@ def extract_dates(ImageCollection):
     '''
     dates = ImageCollection.reduceColumns(ee.Reducer.toList(), ['system:time_start']).get('list').getInfo()
     dates = pd.to_datetime(dates, unit='ms')
+    dates = pd.DatetimeIndex(dates)
 
     return dates
 
