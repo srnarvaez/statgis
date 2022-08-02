@@ -106,7 +106,8 @@ def zonal_statistics_collection(ImageCollection, geom, scale, tileScale=16):
         return stats
 
     fc = ee.FeatureCollection(ImageCollection.map(minimal_zonal_statistics))
-    entries = fc.getInfo()['features']
+    
+    entries = [feature['properties'] for feature in fc.getInfo()['features']]
 
     keys = list(entries[0].keys())
 
@@ -116,7 +117,7 @@ def zonal_statistics_collection(ImageCollection, geom, scale, tileScale=16):
 
     return None
 
-def reduce_collection(ImageCollection, bands, geom, reducer, scale, tileScale=2):
+def reduce_collection(ImageCollection, bands, geom, reducer, scale, tileScale=16):
     '''
     Reduce a ImageCollection to the given reducer in the selected bands 
     in the specified region.
@@ -146,6 +147,7 @@ def reduce_collection(ImageCollection, bands, geom, reducer, scale, tileScale=2)
     dataframe : pandas.dataframe
         Dataframe with the bandes reduced by region.
     '''
+    
     if reducer == 'mean':
         ee_reducer = ee.Reducer.mean()
     elif reducer == 'max':
@@ -166,18 +168,16 @@ def reduce_collection(ImageCollection, bands, geom, reducer, scale, tileScale=2)
         )
 
         stats = ee.Feature(geom, stats)
-        stats = stats.set('time', Image.get('system:time_start'))
+        stats = stats.set('system:time_start', Image.get('system:time_start'))
 
         return stats
 
     fc = ee.FeatureCollection(ImageCollection.map(reduce_image))
 
-    bands.append('time')
-
-    entries = fc.getInfo()['features']
-
-    data = {band: [entry['properties'][band] for entry in entries] for band in bands}
-    data = pd.DataFrame(data)
-    data['date'] = pd.DatetimeIndex(pd.to_datetime(data['time'], unit='ms').dt.date)
+    entries = [feature['properties'] for feature in fc.getInfo()['features']]
+    
+    data = pd.DataFrame(entries)
+    data = data[bands+['system:time_start']]
+    data['date'] = pd.DatetimeIndex(pd.to_datetime(data['system:time_start'], unit='ms').dt.date)
 
     return data
