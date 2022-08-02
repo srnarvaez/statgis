@@ -70,6 +70,45 @@ def trend(ImageCollection, band):
 
     return ImageCollection
 
+def year_mean(ImageCollection, reducer, band, start, end):
+    '''
+    Function for calculate the reducer by year.
+
+    Parameters
+    ----------
+    ImageCollection : ee.ImageCollection
+        ImageCollection to perform the monthly statistical.
+
+    reducer : ee.Reducer
+        ee.Reducer to apply.
+
+    band : str
+        Name of the band to apply the reducer.
+
+    start : int
+        First year.
+
+    end : int
+        Last year.
+
+    Returns
+    -------
+    yearly : ee.ImageCollection
+        ImageCollection reduced by year.
+    
+    '''
+    years = ee.List.sequence(start, end)
+
+    def filter_calc(year):
+        '''Filter and calculate the reducer by year'''
+        data = ImageCollection.filter(ee.Filter.calendarRange(year, year, 'year'))
+        data = data.select(band).reduce(reducer).set('year', year)
+        return data
+
+    yearly = ee.ImageCollection.fromImages(years.map(filter_calc))
+    
+    return yearly
+
 def montlhy_calc(ImageCollection, reducer, band):
     ''''
     Calc monthly statistics from an image based in the reducer
@@ -89,7 +128,7 @@ def montlhy_calc(ImageCollection, reducer, band):
     Returns
     -------
     monthly : ee.ImageCollection
-        ImageCollection reducer by month.
+        ImageCollection reduced by month.
     '''
     months = ee.List.sequence(1, 12)
 

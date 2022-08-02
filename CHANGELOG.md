@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.2.3
+- Add function to reduce image collection to one statistic (`zonal_statistics`).
+- Changes in `zonal_statistics` to automatically get the date in the row.
+- Add function to reduce image collection by years (`time_series_analysis`).
 ## Version 0.2.2
 Add default value to tileScale.
 

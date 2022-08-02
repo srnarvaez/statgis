@@ -36,7 +36,7 @@ def zonal_statistics_image(Image, band, geom, scale, tileScale=2):
     data = ee.Feature(
         geom=geom,
         opt_properties={
-            'system:time_start':Image.get('system:time_start'),
+            'time':Image.get('system:time_start'),
         }
     )
 
@@ -45,6 +45,8 @@ def zonal_statistics_image(Image, band, geom, scale, tileScale=2):
     raw_values = data.getInfo()
     stats = pd.DataFrame(raw_values['properties'], index=[0])
 
+    stats['time'] = pd.to_datetime(stats['time'], unit='ms')
+    
     return stats
 
 def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2):  
@@ -66,6 +68,9 @@ def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2)
 
     scale : int or float
         Pixel size to perform the zonal statistics.
+
+    tileScale : int
+        Scale of the mosaic to allow EarthEngine to split the task to more cores.
 
     Returns
     -------
@@ -100,7 +105,7 @@ def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2)
         data = ee.Feature(
             geom=geom,
             opt_properties={
-                'system:time_start':Image.get('system:time_start'),
+                'time':Image.get('system:time_start'),
             }
         )
 
@@ -121,4 +126,87 @@ def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2)
         else:
             dataframe = pd.concat([dataframe, data])
 
+    dataframe['time'] = pd.to_datetime(dataframe['time'], unit='ms')
+
+    return dataframe
+
+def reduce_collection(ImageCollection, bands, geom, reducer, scale, tileScale=2):
+    '''
+    Reduce a ImageCollection to the given reducer in the selected bands 
+    in the specified region.
+
+    Parameters
+    ----------
+    ImageCollection : ee.ImageCollection
+        ImageCollection to reduce.
+    
+    bands : list
+        List with the name of the bands to reduce or the band name.
+
+    geom : ee.Geometry
+        Region of interest.
+
+    reducer : string
+        reducer to apply, it can be 'mean', 'max', 'min', 'count' or 'stdDev'.
+
+    Scale : float
+        Scale of image to perform the reduction.
+
+    tileScale : int
+        Scale of the mosaic to allow EarthEngine to split the task to more cores.
+
+    Returns
+    -------
+    dataframe : pandas.dataframe
+        Dataframe with the bandes reduced by region.
+    '''
+    if reducer == 'mean':
+        ee_reducer = ee.Reducer.mean()
+    elif reducer == 'max':
+        ee_reducer = ee.Reducer.max()
+    elif reducer == 'min':
+        ee_reducer = ee.Reducer.min()
+    elif reducer == 'count':
+        ee_reducer = ee.Reducer.count()
+    elif reducer == 'stdDev':
+        ee_reducer = ee.Reducer.stdDev()
+    
+    def reduce_image(Image):
+        stat = Image.reduceRegion(
+            ee_reducer,
+            geometry=geom,
+            scale=scale,
+            tileScale=tileScale
+        )
+        
+        data = ee.Feature(
+            geom=geom,
+            opt_properties={
+                'time':Image.get('system:time_start'),
+            }
+        )
+
+        if type(bands) == type([]):
+            for band in bands:
+                data = data.set(band, stat.get(band))
+        else:
+            data = data.set(bands, stat.get(bands))
+        
+        return data
+
+    fc = ee.FeatureCollection(ImageCollection.map(reduce_image))
+    raw_data = fc.getInfo()['features']
+
+    idx = np.arange(len(raw_data))
+
+    for i in idx:
+        data = pd.DataFrame(raw_data[i]['properties'], index=[i])
+
+        if i == 0:
+            dataframe = data
+        else:
+            dataframe = pd.concat([dataframe, data])
+
+    dataframe['time'] = pd.to_datetime(dataframe['time'], unit='ms')
+    
     return dataframe
