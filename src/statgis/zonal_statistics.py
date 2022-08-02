@@ -50,7 +50,7 @@ def zonal_statistics_image(Image, band, geom, scale, tileScale=2):
     
     return stats
 
-def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2):  
+def zonal_statistics_collection(ImageCollection, geom, scale, tileScale=16):  
     '''
     Calc the mean, maximum, minimum standard deviation
     of a band in all ee.Image in an ee.ImageCollection in the 
@@ -60,9 +60,6 @@ def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2)
     ----------
     Image : ee.ImageCollection
         ImageCollection to perfom the zonal statistics.
-
-    band : str
-        band of interest.
 
     geom : ee.Geometry
         Region of interest to calc the zonal statistics.
@@ -103,34 +100,21 @@ def zonal_statistics_collection(ImageCollection, band, geom, scale, tileScale=2)
             tileScale=tileScale
         )
 
-        data = ee.Feature(
-            geom=geom,
-            opt_properties={
-                'time':Image.get('system:time_start'),
-            }
-        )
+        stats = ee.Feature(geom, stats)
+        stats = stats.set('time', Image.get('system:time_start'))
 
-        data = data.set('mean', stats.get(band+'_mean')).set('max', stats.get(band+'_max')).set('min', stats.get(band+'_min')).set('count', stats.get(band+'_count')).set('std', stats.get(band+'_stdDev'))
-
-        return data
+        return stats
 
     fc = ee.FeatureCollection(ImageCollection.map(minimal_zonal_statistics))
-    raw_data = fc.getInfo()['features']
+    entries = fc.getInfo()['features']
 
-    idx = np.arange(len(raw_data))
+    keys = list(entries[0].keys())
 
-    for i in idx:
-        data = pd.DataFrame(raw_data[i]['properties'], index=[i])
+    data = {key: [entry['properties'][key] for entry in entries] for key in keys}
+    data = pd.DataFrame(data)
+    data['date'] = pd.DatetimeIndex(pd.to_datetime(data['time'], unit='ms').dt.date)
 
-        if i == 0:
-            dataframe = data
-        else:
-            dataframe = pd.concat([dataframe, data])
-
-    dataframe['time'] = pd.to_datetime(dataframe['time'], unit='ms')
-    dataframe['time'] = pd.DatetimeIndex(dataframe['time'])
-
-    return dataframe
+    return None
 
 def reduce_collection(ImageCollection, bands, geom, reducer, scale, tileScale=2):
     '''
@@ -172,44 +156,28 @@ def reduce_collection(ImageCollection, bands, geom, reducer, scale, tileScale=2)
         ee_reducer = ee.Reducer.count()
     elif reducer == 'stdDev':
         ee_reducer = ee.Reducer.stdDev()
-    
+
     def reduce_image(Image):
-        stat = Image.reduceRegion(
-            ee_reducer,
-            geometry=geom,
-            scale=scale,
-            tileScale=tileScale
-        )
-        
-        data = ee.Feature(
-            geom=geom,
-            opt_properties={
-                'time':Image.get('system:time_start'),
-            }
+        stats = Image.reduceRegion(
+            reducer = ee_reducer,
+            geometry = geom,
+            scale = scale,
+            tileScale = tileScale
         )
 
-        if type(bands) == type([]):
-            for band in bands:
-                data = data.set(band, stat.get(band))
-        else:
-            data = data.set(bands, stat.get(bands))
-        
-        return data
+        stats = ee.Feature(geom, stats)
+        stats = stats.set('time', Image.get('system:time_start'))
+
+        return stats
 
     fc = ee.FeatureCollection(ImageCollection.map(reduce_image))
-    raw_data = fc.getInfo()['features']
 
-    idx = np.arange(len(raw_data))
+    bands.append('time')
 
-    for i in idx:
-        data = pd.DataFrame(raw_data[i]['properties'], index=[i])
+    entries = fc.getInfo()['features']
 
-        if i == 0:
-            dataframe = data
-        else:
-            dataframe = pd.concat([dataframe, data])
+    data = {band: [entry['properties'][band] for entry in entries] for band in bands}
+    data = pd.DataFrame(data)
+    data['date'] = pd.DatetimeIndex(pd.to_datetime(data['time'], unit='ms').dt.date)
 
-    dataframe['time'] = pd.to_datetime(dataframe['time'], unit='ms')
-    dataframe['time'] = pd.DatetimeIndex(dataframe['time'])
-    
-    return dataframe
+    return data
