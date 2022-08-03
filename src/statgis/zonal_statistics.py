@@ -31,7 +31,7 @@ def zonal_statistics_image(Image, geom, scale, bands="all", reducer="all", tileS
         DataFrame with all the stats for all spcified bands.
     """
     if bands != "all":
-        ImageCollection = ImageCollection.map(lambda image: image.select(bands))
+        Image = Image.select(bands)
 
     if reducer == "all":
         reducer = ee.Reducer.mean().combine(
