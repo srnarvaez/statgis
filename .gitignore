@@ -4,3 +4,4 @@ pyproject.toml
 /dist
 test.ipynb
 /tests/__pycache__
+/src/statgis/__pycache__
