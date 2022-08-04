@@ -7,7 +7,7 @@
  * @param {string} green - Key of green band.
  * @param {string} red - Key of red band.
  * @param {string} nir - key of NIR band.
- * @return {ss.Image} plume - Plume characterized in the three color bands of Image.
+ * @return {ee.Image} plume - Plume characterized in the three color bands of Image.
  */
 
  function plume_characterization(Image, sample_region, blue, green, red, nir) {
