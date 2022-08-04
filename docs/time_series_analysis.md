@@ -24,7 +24,7 @@ dates : pandas.DatetimeIndex <br>
 
 ### Notes
 
-This Function doesn't exist in the JS version.
+This Function does not exist in the JS version.
 
 ### Example
 

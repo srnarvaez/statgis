@@ -91,7 +91,7 @@ Image : ee.Image <br>
 
 ### Notes
 
-This function doesn't exist in the JS Version.
+This function does not exist in the JS Version.
 
 ### Example
 
