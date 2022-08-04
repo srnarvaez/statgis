@@ -34,7 +34,7 @@ from statgis.time_series_analysis import extract_dates
 dates = extract_dates(ImageCollection)
 ```
 
-### Linear Trend and Stational Variation in an Image Collection
+## Linear Trend and Stational Variation in an Image Collection
 
 ```python
 statgis.time_series_analysis.trend(
@@ -69,7 +69,7 @@ from statgis.time_series_analysis import trend
 detrended = trend(ImageCollection)
 ```
 
-### Reduce an Image Collection by Year
+## Reduce an Image Collection by Year
 
 ```python
 statgis.time_series_analysis.reduce_by_year(
@@ -115,7 +115,7 @@ annual_mean = reduce_by_year(
 )
 ```
 
-### Reduce an Image Collection by Month
+## Reduce an Image Collection by Month
 
 ```python
 statgis.time_series_analysis.reduce_by_months(
@@ -151,7 +151,7 @@ annual_mean = reduce_by_month(
 )
 ```
 
-### Calculate the Anomalies
+## Calculate the Anomalies
 
 ```python
 statgis.time_series_analysis.calc_anomalies(
