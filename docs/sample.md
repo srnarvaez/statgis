@@ -71,6 +71,8 @@ data : list <br>
 - This function works with a for loop, so it takes time.
 - This function does not have a JS version.
 
+### Example
+
 ```python
 from statgis.sample import sample_image_collection
 
