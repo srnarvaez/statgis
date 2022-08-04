@@ -3,7 +3,7 @@ import pandas as pd
 
 def zonal_statistics_image(Image, geom, scale, bands="all", reducer="all", tileScale=16):
     """
-    Function to calculate a statistic in the specified region for al Image in a Image Collection.
+    Function to calculate a statistic in the specified region for one image.
 
     Parameters
     ----------
@@ -62,12 +62,12 @@ def zonal_statistics_collection(
     ImageCollection, geom, scale, bands="all", reducer="all", tileScale=16
 ):
     """
-    Function to calculate a statistic in the specified region for al Image in a Image Collection.
+    Function to calculate a statistic in the specified region for all Image in a Image Collection.
 
     Parameters
     ----------
     ImageCollection : ee.ImageCollection
-        Image Collection with the image to analyse.
+        Image Collection with the image to analyze.
 
     geom : ee.Geometry
         Region of interest to reduce the images.

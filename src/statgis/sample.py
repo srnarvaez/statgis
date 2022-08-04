@@ -9,9 +9,13 @@ def sample_image(Image, band, geom, scale):
     ----------
     Image : ee.Image
         Image to be sampled.
+
     band : str
         Band of interest.
-    geom : ee.Geometry or ee.Feature or ee.FeatureCollection Region of interest to sample
+
+    geom : ee.Geometry
+        Region of interest to sample.
+
     scale : float
         Pixelsize of image to be sampled.
 
@@ -39,23 +43,26 @@ def sample_image(Image, band, geom, scale):
 
 def sample_collection(ImageCollection, band, geom, scale):
     """
-    This function sample all ee.Image in an ee.ImageCollection applying the sample_image function to all ee.Image.
+    This function sample all images in an image collection applying the sample_image function to all images.
 
     Parameters
     ----------
     Image : ee.ImageCollection
-        ImageCollection with the ee-Image of interest to be sampled.
+        Image collection with the images of interest.
+
     band : str
         Band of interest.
-    geom : ee.Geometry or ee.Feature or ee.FeatureCollection
-        Region of interest to sample
+        
+    geom : ee.Geometry
+        Region of interest to sample.
+        
     scale : float
         Pixelsize of image to be sampled.
 
     Returns
     -------
     data : list
-        list of np.array with ell the sampled values per image.
+        list of np.array with all the sampled values per image.
     """
     N = ImageCollection.size().getInfo()
     ic_list = ImageCollection.toList(N)
