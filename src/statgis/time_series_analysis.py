@@ -28,7 +28,7 @@ def extract_dates(ImageCollection):
 
 def trend(ImageCollection, band):
     """
-    Add linear trend and stationally to an ImageCollection.
+    Calculate the linear trend and stational variation to an Image colleciton.
 
     Parameters
     ----------
@@ -41,7 +41,7 @@ def trend(ImageCollection, band):
     Returns
     -------
     ImageCollection : ee.ImageCollection
-        ImageCollection with the Raw data, Time, Trend and Statinally bands.
+        ImageCollection with the Raw data, Time, Trend and Stational variation bands.
     """
 
     def time_func(Image):
@@ -115,7 +115,6 @@ def reduce_by_year(ImageCollection, reducer, bands, start, end):
     -------
     yearly : ee.ImageCollection
         ImageCollection reduced by year.
-
     """
     years = ee.List.sequence(start, end)
 
@@ -166,7 +165,7 @@ def reduce_by_month(ImageCollection, reducer, bands):
 
 def calc_anomalies(ImageCollection, monthly_mean):
     """
-    Calc the anomalies of a ImageCollection subtracting the monthly mean values.
+    Calculate the anomalies of a ImageCollection subtracting the monthly mean values.
 
     Parameters
     ----------
@@ -251,21 +250,19 @@ def calc_anomalies(ImageCollection, monthly_mean):
 
 def time_series_preocessing(ImageCollection, band):
     """
-    Basic Time Series Processing.
-
     This function take an ee.ImageCollection and calculate the linear trend, the stational varaition, the stational mean and anomalies for the selected band.
 
-    To calc the linear trend the function use `ee.Reducer.linearFit()`, next, calc the stational variation subtracting the linear_fitted values to the original series and restoring its mean, the monthly means are calculeted by selecting all the image in the specific month and reduce it by its mean, finally, subtracting the monthly means to the stational variation.
+    To calculate the linear trend the function use `ee.Reducer.linearFit()`, next, calculate the stational variation subtracting the linear_fitted values to the original series and restoring its mean, the monthly means are calculeted by selecting all the image in the specific month and reduce it by its mean, finally, subtracting the monthly means to the stational variation anomalies are obtained.
 
-    This function is a "wrapper" function of `trend()`, `reduce_by_month()` and `calc_anomalies()`.
+    This function work as a "wrapper" function of `trend()`, `reduce_by_month()` and `calc_anomalies()`.
 
     Parameters
     ----------
     ImageCollection : ee.ImageCollection
-        ImageCollection with the band to analyze.
+        ImageCollection to analyse.
 
     band : str
-        Name of the band to perform the analyze.
+        Name of the band of interest.
 
     Returns
     -------
