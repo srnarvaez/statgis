@@ -45,6 +45,12 @@ data = sample(Image, band, geom, scale)
 
 ## Sample All Image in an Image Collection
 
+```python
+statgis.sample.smaple_image_collection(
+    ImageCollection, band, geom, scale
+)
+```
+
 This function sample all images in an image collection applying the sample_image function to all images.
 
 ### Parameters
