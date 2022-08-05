@@ -43,7 +43,7 @@
  * @return {ee.ImageCollection} monthly_mean - ImageCollection with the twelves monthly means calculated.
  */
 
- function trend(ImageCollection, band) {
+exports.trend = function(ImageCollection, band) {
     function time_func(Image) {
         var time = Image.metadata("system:time_start")
                         .divide(1000 * 60 * 60 * 24 * 365)
@@ -86,7 +86,7 @@
     return ImageCollection;
 }
 
-function reduce_by_year(ImageCollection, reducer, bands, start, end) {
+exports.reduce_by_year = function(ImageCollection, reducer, bands, start, end) {
     var years = ee.List.sequence(start, end);
 
     function filter_calc(year) {
@@ -100,7 +100,7 @@ function reduce_by_year(ImageCollection, reducer, bands, start, end) {
     return yearly;
 }
 
-function reduce_by_month(ImageCollection, reducer, bands) {
+exports.reduce_by_month = function(ImageCollection, reducer, bands) {
     var months = ee.List.sequence(1, 12);
 
     function filter_calc(month) {
@@ -114,7 +114,7 @@ function reduce_by_month(ImageCollection, reducer, bands) {
     return monthly;
 }
 
-function calc_anomalies(ImageCollection, monthly_mean) {
+exports.calc_anomalies = function(ImageCollection, monthly_mean) {
     function calc_anomaly(Image) {
         var anomaly = Image.expression(
             "b('stational') - b('stational_mean')"
@@ -190,7 +190,7 @@ function calc_anomalies(ImageCollection, monthly_mean) {
     return data;
 }
 
-function time_series_processing(ImageCollection, band) {
+exports.time_series_processing = function(ImageCollection, band) {
     var trended = trend(ImageCollection, band);
     var monthly_mean = reduce_by_month(trended, ee.Reducer.mean(), "stational");
     var data = calc_anomalies(trended, monthly_mean);

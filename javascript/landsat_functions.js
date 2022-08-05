@@ -13,7 +13,7 @@
  * @return  {ee.Image}  Image   Masked image.
  */
 
- function landsat_scaler(Image) {
+exports.landsat_scaler = function(Image) {
     var optical = Image.select("SR_B.").multiply(0.0000275).add(-0.2);
     var thermal = Image.select("ST_B.*").multiply(0.00341802).add(149);
 
@@ -23,7 +23,7 @@
     return Image;
 }
 
-function landsat_cloud_mask(Image) {
+exports.landsat_cloud_mask = function(Image) {
     var qa = Image.select("QA_PIXEL");
 
     var cirrus = qa.bitwiseAnd((1 << 2)).eq(0);
