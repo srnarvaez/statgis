@@ -25,6 +25,12 @@
             "type": "Vegetation"
         },
         {
+            "name": "Green Coverage Index",
+            "key": "GCI",
+            "formula": "(R_NIR/R_GREEN) - 1",
+            "type": "Vegetation"
+        },
+        {
             "name": "Alternative Floating Algae Index",
             "key": "AFAI",
             "formula": "R_NIR - R_RED + (R_SWIR - R_RED)*0.5",
