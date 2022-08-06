@@ -43,7 +43,7 @@
  * @return {ee.ImageCollection} monthly_mean - ImageCollection with the twelves monthly means calculated.
  */
 
-exports.trend = function(ImageCollection, band) {
+var trend = function(ImageCollection, band) {
     function time_func(Image) {
         var time = Image.metadata("system:time_start")
                         .divide(1000 * 60 * 60 * 24 * 365)
@@ -86,7 +86,7 @@ exports.trend = function(ImageCollection, band) {
     return ImageCollection;
 }
 
-exports.reduce_by_year = function(ImageCollection, reducer, bands, start, end) {
+var reduce_by_year = function(ImageCollection, reducer, bands, start, end) {
     var years = ee.List.sequence(start, end);
 
     function filter_calc(year) {
@@ -100,7 +100,7 @@ exports.reduce_by_year = function(ImageCollection, reducer, bands, start, end) {
     return yearly;
 }
 
-exports.reduce_by_month = function(ImageCollection, reducer, bands) {
+var reduce_by_month = function(ImageCollection, reducer, bands) {
     var months = ee.List.sequence(1, 12);
 
     function filter_calc(month) {
@@ -114,7 +114,7 @@ exports.reduce_by_month = function(ImageCollection, reducer, bands) {
     return monthly;
 }
 
-exports.calc_anomalies = function(ImageCollection, monthly_mean) {
+var calc_anomalies = function(ImageCollection, monthly_mean) {
     function calc_anomaly(Image) {
         var anomaly = Image.expression(
             "b('stational') - b('stational_mean')"
@@ -190,10 +190,16 @@ exports.calc_anomalies = function(ImageCollection, monthly_mean) {
     return data;
 }
 
-exports.time_series_processing = function(ImageCollection, band) {
+var time_series_processing = function(ImageCollection, band) {
     var trended = trend(ImageCollection, band);
     var monthly_mean = reduce_by_month(trended, ee.Reducer.mean(), "stational");
     var data = calc_anomalies(trended, monthly_mean);
 
     return [data, monthly_mean];
 }
+
+exports.trend = trend;
+exports.reduce_by_year = reduce_by_year;
+exports.reduce_by_month = reduce_by_month;
+exports.calc_anomalies = calc_anomalies;
+exports.time_series_processing = time_series_processing;

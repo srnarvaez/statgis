@@ -12,14 +12,14 @@
  * @return  {ee.Image}  Image   Masked image.
  */
 
- exports.sentinel_scaler = function(Image) {
+ var sentinel_scaler = function(Image) {
     var bands = Image.select("B.*").divide(10000);
-    var Image = Image.addBands(bands, null, true);
+    Image = Image.addBands(bands, null, true);
 
-    return Image
-}
+    return Image;
+};
 
-exports.sentinel_cloud_mask = function(Image) {
+var sentinel_cloud_mask = function(Image) {
     var qa = Image.select("QA60");
 
     var cloud_mask = qa.bitwiseAnd((1 << 10)).eq(0);
@@ -28,4 +28,7 @@ exports.sentinel_cloud_mask = function(Image) {
     Image = Image.updateMask(cloud_mask).updateMask(cirrus_mask);
 
     return Image;
-}
+};
+
+exports.sentinel_scaler = sentinel_scaler;
+exports.sentinel_cloud_mask = sentinel_cloud_mask;

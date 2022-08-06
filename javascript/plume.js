@@ -10,7 +10,7 @@
  * @return {ee.Image} plume - Plume characterized in the three color bands of Image.
  */
 
- exports.plume_characterization = function(Image, sample_region, blue, green, red, nir) {
+ var plume_characterization = function(Image, sample_region, blue, green, red, nir) {
     Image = Image.addBands(
         Image.expression(
             "(GREEN - NIR)/(GREEN + NIR)",
@@ -87,4 +87,6 @@
     Image = Image.updateMask(plume_mask).updateMask(count_mask);
 
     return Image;  
-}
+};
+
+exports.plume_characterization = plume_characterization;

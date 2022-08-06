@@ -22,7 +22,7 @@
  * @return {ee.FeatureCollection} data - DataFrame with all the stats for all spcified bands.
  */
 
-exports.zonal_statistics_image = function(Image, geom, scale, bands, reducer, tileScale) {
+var zonal_statistics_image = function(Image, geom, scale, bands, reducer, tileScale) {
     if (bands !== "all") {
         Image = Image.select(bands);
     }
@@ -51,9 +51,9 @@ exports.zonal_statistics_image = function(Image, geom, scale, bands, reducer, ti
     var data = ee.Feature(geom, stats);
 
     return data;
-}
+};
 
-exports.zonal_statistics_collection = function(ImageCollection, geom, scale, bands, reducer, tileScale) {
+var zonal_statistics_collection = function(ImageCollection, geom, scale, bands, reducer, tileScale) {
     if (bands !== "all") {
         ImageCollection = ImageCollection.map(function(Image) {
             Image = Image.select(bands);
@@ -91,4 +91,7 @@ exports.zonal_statistics_collection = function(ImageCollection, geom, scale, ban
     var data = ee.FeatureCollection(ImageCollection.map(reduce_image));
 
     return data;
-}
+};
+
+exports.zonal_statistics_image = zonal_statistics_image;
+exports.zonal_statistics_collection = zonal_statistics_collection;
