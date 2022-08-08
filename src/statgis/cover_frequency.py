@@ -5,7 +5,7 @@ def water_frequency(
     ImageCollection, bands=["SR_B2", "SR_B3", "SR_B4", "SR_B5", "SR_B6"]
 ):
     """
-    Water pixel detection into an imagecollection. for default is setting with landsat 8 scenes.
+    Water pixel detection into an imagecollection. for default is setting with landsat 8 scenes. Based on Zou et al. (2017) and Worder & Beurs (2020).
 
     Parameters
     ----------
