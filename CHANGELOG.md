@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.3.2
+- Add functions for cover probability.
+
 ## Version 0.3.0
 - Imporve te performance of some functions. Delete unused functions. Reformatted with black all the files.
 
