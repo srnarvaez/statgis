@@ -1,0 +1,18 @@
+{
+    "Cities": [
+        {
+            "name": "Barranquilla",
+            "coords": [-74.796387, 10.963889]
+        },
+    ],
+    "Zones": [
+        {
+            "name": "San Juan river delta",
+            "coords": [-77.483924, 4.148321],
+        },
+        {
+            "name": "Magdalena river outlet",
+            "coords": [-74.848167, 11.098519]
+        },
+    ]
+}
