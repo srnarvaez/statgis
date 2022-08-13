@@ -1,0 +1,27 @@
+name: statgis
+dependencies:
+  - python=3.9
+  - gdal
+  - fiona
+  - ipykernel
+  - numpy
+  - pandas
+  - scipy
+  - sympy
+  - matplotlib
+  - jupyter
+  - xarray
+  - statsmodels
+  - pymannkendall
+  - tensorflow
+  - rasterio
+  - shapely
+  - pykrige
+  - geopandas
+  - earthengine-api
+  - geemap
+  - statgis
+  - pip
+  - pip:
+    - poetry
+    - pytest
