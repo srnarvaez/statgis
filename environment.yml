@@ -12,6 +12,7 @@ dependencies:
   - jupyter
   - xarray
   - statsmodels
+  - scikit-learn
   - pymannkendall
   - tensorflow
   - rasterio
