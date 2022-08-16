@@ -25,7 +25,7 @@
             "type": "Vegetation"
         },
         {
-            "name": "Green Coverage Index",
+            "name": "Green Chlorophyll Vegetation Index",
             "key": "GCI",
             "formula": "(R_NIR/R_GREEN) - 1",
             "type": "Vegetation"
