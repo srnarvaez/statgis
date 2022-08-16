@@ -15,7 +15,7 @@
         {
             "name": "Normalized Difference Moisture Index",
             "key": "NDMI",
-            "formula": "(R_NIR - R_SWIR)/(R_NIR + R_SWIR)",
+            "formula": "(R_NIR - R_RED)/(R_NIR + R_RED)",
             "type": "Vegetation"
         },
         {
@@ -28,6 +28,12 @@
             "name": "Green Coverage Index",
             "key": "GCI",
             "formula": "(R_NIR/R_GREEN) - 1",
+            "type": "Vegetation"
+        },
+        {
+            "name": "Blue-Green Ratio",
+            "key": "BGR",
+            "formula": "R_BLUE/R_GREEN",
             "type": "Vegetation"
         },
         {
