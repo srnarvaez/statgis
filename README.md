@@ -5,4 +5,7 @@
 The current version of statgis is 0.3.2.
 ## Credits
 
-All the attribution of the development and maintance of this package is for StatGIS.org and its developers team.
+All the attribution of the development and maintance of this package is for StatGIS.org and its developers team:
+
+- [Sebástian Narváez](mailto:srnarvaez@statgis.org).
+- [Brayan Navarro](mailto:brnavarro@statgis.org).
