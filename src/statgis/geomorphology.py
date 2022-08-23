@@ -2,7 +2,7 @@ import ee
 
 
 def hypsometric_curve(
-    catchment, dem=ee.Image("CGIAR/SRTM90_V4"), band="elevation", samples=20, scale=30
+    catchment, dem=ee.Image("CGIAR/SRTM90_V4"), band="elevation", samples=20, scale=30, maxPixels = 1e19
 ):
 
     """
@@ -39,7 +39,7 @@ def hypsometric_curve(
     )
 
     limits = dem.select([band]).reduceRegion(
-        reducer=reducer, geometry=catchment, scale=scale
+        reducer=reducer, geometry=catchment, scale=scale, maxPixels = maxPixels
     )
 
     # define the range between minimum and maximum elevation for normalitation
@@ -48,8 +48,8 @@ def hypsometric_curve(
         - limits.getNumber(band + "_min").getInfo()
     ) / samples
 
-    Area = []
-    Height = []
+    Area = [1]
+    Height = [0]
 
     for i in range(samples):
         mask = (
@@ -66,7 +66,7 @@ def hypsometric_curve(
         reducer1 = ee.Reducer.sum()
 
         sub_pixels = mask.select([band]).reduceRegion(
-            reducer=reducer1, geometry=catchment, scale=scale
+            reducer=reducer1, geometry=catchment, scale=scale, maxPixels = maxPixels
         )
 
         sub_pixels = sub_pixels.getNumber(band).getInfo()
