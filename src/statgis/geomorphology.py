@@ -2,7 +2,7 @@ import ee
 
 
 def hypsometric_curve(
-    catchment, dem=ee.Image("CGIAR/SRTM90_V4"), band="elevation", samples=20, scale=30, maxPixels = 1e19
+    catchment, dem=ee.Image("USGS/SRTMGL1_003"), band="elevation", samples=20, scale=30, maxPixels = 1e19
 ):
 
     """
