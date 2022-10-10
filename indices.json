@@ -71,6 +71,36 @@
             "key": "NDBI",
             "formula": "(R_SWIR - R_NIR)/(R_SWIR + R_NIR)",
             "type": "Builds"
+        },
+        {
+            "name": "Clay Minerals Ratio",
+            "key": "CMR",
+            "formula": "R_SWIR1/R_SWIR2",
+            "type": "Geology"
+        },
+        {
+            "name": "Ferrous Minerals Ratio",
+            "key": "FMR",
+            "formula": "R_SWIR/R_NIR",
+            "type": "Geology"
+        },
+        {
+            "name": "Iron Oxide Ratio",
+            "key": "CMR",
+            "formula": "R_RED/R_BLUE",
+            "type": "Geology"
+        },
+        {
+            "name": "Burn Area Index",
+            "key": "BAI",
+            "formula": "1/((0.1 - R_RED)^2 + (0.06 - R_NIR)^2)",
+            "type": "Burns"
+        },
+        {
+            "name": "Normalized Burn Ratio Index",
+            "key": "NBRI",
+            "formula": "(R_NIR - R_SWIR) / (R_NIR + R_SWIR)",
+            "type": "Burns"
         }
     ]
 }
